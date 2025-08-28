@@ -96,7 +96,7 @@ def pruebas_dinamico():
     """
     Prueba básica de la clase AutomovilDinamico.
     """
-    print("\n🔧 Prueba AutomovilDinamico")
+    print("\n Prueba AutomovilDinamico")
     auto = AutomovilDinamico()
     auto.set_atributo("marca", "Honda")
     auto.set_atributo("modelo", "Civic")
@@ -108,3 +108,4 @@ def pruebas_dinamico():
 if __name__ == "__main__":
     pruebas_estatico()
     pruebas_dinamico()
+

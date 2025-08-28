@@ -83,7 +83,7 @@ def pruebas_estatico():
     """
     Prueba básica de la clase AutomovilEstatico.
     """
-    print("🔧 Prueba AutomovilEstatico")
+    print(" Prueba AutomovilEstatico")
     auto = AutomovilEstatico("Toyota", "Corolla", 2020)
     print("Marca:", auto.get_marca())
     print("Modelo:", auto.get_modelo())
@@ -108,4 +108,5 @@ def pruebas_dinamico():
 if __name__ == "__main__":
     pruebas_estatico()
     pruebas_dinamico()
+
 

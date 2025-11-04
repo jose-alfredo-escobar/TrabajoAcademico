@@ -1,38 +1,61 @@
-class Tarea:
-    def __init__(self, descripcion):
-        self._descripcion = descripcion
-        self._estado = 'pendiente'
+from datetime import datetime
 
-    def get_descripcion(self):
-        return self._descripcion
+class NodoTarea:
+    def __init__(self, titulo, detalle, estado='pendiente'):
+        self.titulo = titulo
+        self.detalle = detalle
+        self.estado = estado
+        self.fecha_creacion = datetime.now()
+        self.siguiente = None  # ← clave para lista enlazada
 
-    def get_estado(self):
-        return self._estado
+    def alternar_estado(self):
+        self.estado = 'completada' if self.estado == 'pendiente' else 'pendiente'
 
-    def set_estado(self, estado):
-        self._estado = estado
-
-
+#gestiona la lista enlazada de tareas
+#permite hacer operaciones como agregar, completar, eliminar y obtener tareas
 class ListaTareas:
     def __init__(self):
-        self._tareas = []
+        self.inicio = None
 
-    def agregar_tarea(self, descripcion):
-        self._tareas.append(Tarea(descripcion))
+    def agregar_tarea(self, titulo, detalle):
+        nuevo = NodoTarea(titulo, detalle)
+        if not self.inicio:
+            self.inicio = nuevo
+        else:
+            actual = self.inicio
+            while actual.siguiente:
+                actual = actual.siguiente
+            actual.siguiente = nuevo
 
-    def marcar_como_completada(self, descripcion):
-        for tarea in self._tareas:
-            if tarea.get_descripcion() == descripcion:
-                tarea.set_estado('completada')
+    def marcar_como_completada(self, titulo):
+        actual = self.inicio
+        while actual:
+            if actual.titulo == titulo:
+                actual.alternar_estado()
                 return True
+            actual = actual.siguiente
         return False
 
-    def eliminar_tarea(self, descripcion):
-        for tarea in self._tareas:
-            if tarea.get_descripcion() == descripcion:
-                self._tareas.remove(tarea)
+    def eliminar_tarea(self, titulo):
+        actual = self.inicio
+        anterior = None
+        while actual:
+            if actual.titulo == titulo:
+                if anterior:
+                    anterior.siguiente = actual.siguiente
+                else:
+                    self.inicio = actual.siguiente
                 return True
+            anterior = actual
+            actual = actual.siguiente
         return False
 
     def obtener_tareas(self):
-        return [(t.get_descripcion(), t.get_estado()) for t in self._tareas]
+        tareas = []
+        actual = self.inicio
+        while actual:
+            tareas.append(actual)
+            actual = actual.siguiente
+        return tareas
+
+
